@@ -1,0 +1,10 @@
+
+services:
+  mysql:
+    container_name: mybar_database
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: my_bar
+    ports:
+      - "3308:3306"
