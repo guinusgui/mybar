@@ -14,27 +14,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioRequestDto;
-import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioResponseDto;
-import br.ufpi.mybar_spring.services.UsuarioService;
+import br.ufpi.mybar_spring.dto.dto.cliente.ClientePutDto;
+import br.ufpi.mybar_spring.dto.dto.cliente.ClienteStandartDto;
+import br.ufpi.mybar_spring.services.ClienteService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/clientes")
 @RequiredArgsConstructor
-public class UsuarioController {
-
-    private final UsuarioService usuarioService;
+public class ClienteController {
+    
+    private final ClienteService clienteService;
 
     @GetMapping
-    public List<UsuarioResponseDto> list() {
-        return usuarioService.list();
+    public List<ClienteStandartDto> list() {
+        return clienteService.list();
     };
 
-    @GetMapping("/{codigo}")
-    public ResponseEntity<UsuarioResponseDto> findById(@PathVariable Long codigo) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteStandartDto> findById(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(usuarioService.findById(codigo));
+            return ResponseEntity.ok(clienteService.findById(id));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
@@ -42,23 +42,23 @@ public class UsuarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UsuarioResponseDto create(@RequestBody UsuarioRequestDto dto) {
-        return usuarioService.create(dto);
+    public ClienteStandartDto create(@RequestBody ClienteStandartDto dto) {
+        return clienteService.create(dto);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody UsuarioRequestDto dto) {
+    public ResponseEntity<Void> update(@RequestBody ClientePutDto dto) {
         
         try {  
-            usuarioService.update(dto);
+            clienteService.update(dto);
             return ResponseEntity.ok().build();
         } catch(Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @DeleteMapping("/{codigo}")
-    public ResponseEntity<Void> delete(@PathVariable Long codigo) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         try {
             return ResponseEntity.noContent().build();
         } catch (Exception e) {

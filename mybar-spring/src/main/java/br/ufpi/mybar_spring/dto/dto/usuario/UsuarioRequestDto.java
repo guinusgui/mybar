@@ -1,6 +1,6 @@
-package br.ufpi.mybar_spring.dto.dto;
+package br.ufpi.mybar_spring.dto.dto.usuario;
 
-import br.ufpi.mybar_spring.models.TipoDeUsuario;
+import br.ufpi.mybar_spring.models.usuario.TipoDeUsuario;
 
 public record UsuarioRequestDto(
     Long codigo,

@@ -1,4 +1,4 @@
-package br.ufpi.mybar_spring.models;
+package br.ufpi.mybar_spring.models.usuario;
 
 public enum TipoDeUsuario {
     ADMIN,
