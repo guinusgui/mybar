@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import br.ufpi.mybar_spring.dto.dto.conta.ContaRequestDto;
 import br.ufpi.mybar_spring.dto.dto.conta.ContaResponseDto;
 import br.ufpi.mybar_spring.dto.mapper.ContaMapper;
+import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
+import br.ufpi.mybar_spring.exceptions.custom.RequisicaoIlegal;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
 import br.ufpi.mybar_spring.models.usuario.Usuario;
 import br.ufpi.mybar_spring.repositories.ClienteRepo;
@@ -33,49 +35,59 @@ public class ContaService {
         return ContaMapper.toDto(
             contaRepo.findById(id)
                 .orElseThrow(
-                    () -> new RuntimeException("Conta não encontrada")
+                    () -> new EntidadeNaoEncontrada(
+                        "O numero fornecido não corresponde a nenhuma conta")
                 ));
     }
 
     public ContaResponseDto create(ContaRequestDto dto) {
         Cliente c = clienteRepo.findById(dto.dono())
-            .orElseThrow(() -> new RuntimeException("Não há cliente com esse id"));
+            .orElseThrow(() -> new EntidadeNaoEncontrada(
+                "O id fornecido não corresponde a nenhum cliente"));
         
         Usuario u = usuarioRepo.findById(dto.quem_abriu())
-            .orElseThrow(() -> new RuntimeException("Não há usuário com esse código"));
+            .orElseThrow(() -> new EntidadeNaoEncontrada(
+                "O codigo fornecido não corresponde a nenhum usuário"));
         
         if(!contaRepo.existsById(dto.numero()))
             return ContaMapper.toDto(contaRepo.save(ContaMapper.toEntity(dto, c, u)));
             
         else
-            throw new RuntimeException("Erro ao criar conta");
+            throw new RequisicaoIlegal(
+        "Tentativa de criar conta com número já registrado");
     }
 
     public void update(ContaRequestDto dto) {
         Cliente c = clienteRepo.findById(dto.dono())
-            .orElseThrow(() -> new RuntimeException("Não há cliente com esse id"));
+            .orElseThrow(() -> new EntidadeNaoEncontrada(
+                "O id fornecido não corresponde a nenhum cliente"
+            )
+        );
         
         Usuario u = usuarioRepo.findById(dto.quem_abriu())
-            .orElseThrow(() -> new RuntimeException("Não há usuário com esse código"));
+            .orElseThrow(() -> new EntidadeNaoEncontrada(
+                "O codigo fornecido não corresponde a nenhum usuário"
+            )
+        );
 
         if(contaRepo.existsById(dto.numero()))
             contaRepo.save(ContaMapper.toEntity(dto, c, u));
         else
-            throw new RuntimeException("Erro ao atualizar conta");
+            throw new EntidadeNaoEncontrada(
+        "A requisição não corresponde a nenhuma conta");
     }
 
-    public void delete(Long codigo) {
+    public void delete(Long numero) {
+        if(!contaRepo.existsById(numero))
+            throw new EntidadeNaoEncontrada(
+        "O numero fornecido não corresponde a nenhuma conta"
+        );
         try {
-            contaRepo.deleteById(codigo);
+            contaRepo.deleteById(numero);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(
                 "Requisição nula, impossível prosseguir", e
             );
-        } catch (Exception e) {
-            throw new RuntimeException(
-                "O código enviado não pertence a nenhum usuário no banco", e
-            );
         }
-        
     }
 }

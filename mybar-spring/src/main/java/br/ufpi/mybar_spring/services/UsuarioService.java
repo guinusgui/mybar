@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioRequestDto;
 import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioResponseDto;
 import br.ufpi.mybar_spring.dto.mapper.UsuarioMapper;
+import br.ufpi.mybar_spring.exceptions.custom.RequisicaoIlegal;
+import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.models.usuario.Usuario;
 import br.ufpi.mybar_spring.repositories.UsuarioRepo;
 import lombok.RequiredArgsConstructor;
@@ -23,25 +25,25 @@ public class UsuarioService {
             .toList();
     }
 
-    public UsuarioResponseDto findById(Long codigo) {
+    public UsuarioResponseDto findById( Long codigo) {
         return UsuarioMapper.toDto(
             usuarioRepo.findById(codigo)
                 .orElseThrow(
-                    () -> new RuntimeException("Usuario não encontrado")
+                    () -> new EntidadeNaoEncontrada("Usuario não encontrado")
                 ));
         
     }
 
-    public UsuarioResponseDto create(UsuarioRequestDto dto) {
+    public UsuarioResponseDto create( UsuarioRequestDto dto) {
         return UsuarioMapper.toDto(
             usuarioRepo.save(UsuarioMapper.toEntity(dto))
         );
     }
 
-    public void update(UsuarioRequestDto dto) {
+    public void update( UsuarioRequestDto dto) {
         
         Usuario u = usuarioRepo.findById(dto.codigo())
-            .orElseThrow(() -> new RuntimeException(
+            .orElseThrow(() -> new RequisicaoIlegal(
                 "Usuario inexistente"
             )
         );
@@ -54,19 +56,19 @@ public class UsuarioService {
         usuarioRepo.save(u);
     }
 
-    public void delete(Long codigo) {
+    public void delete( Long codigo) {
+        if(!usuarioRepo.existsById(codigo))
+            throw new EntidadeNaoEncontrada(
+        "O codigo fornecido não pertence a nenhum Usuario");
+
         try {
             usuarioRepo.deleteById(codigo);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException(
+            throw new RequisicaoIlegal(
                 "Requisição nula, impossível prosseguir", e
             );
-        } catch (Exception e) {
-            throw new RuntimeException(
-                "O código enviado não pertence a nenhum usuário no banco", e
-            );
-        }
         
+        }
     }
 
 }

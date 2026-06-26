@@ -3,7 +3,7 @@ package br.ufpi.mybar_spring.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import br.ufpi.mybar_spring.dto.dto.cliente.ClientePutDto;
 import br.ufpi.mybar_spring.dto.dto.cliente.ClienteStandartDto;
 import br.ufpi.mybar_spring.services.ClienteService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
+@Validated
 @RestController
 @RequestMapping("/api/clientes")
 @RequiredArgsConstructor
@@ -32,38 +36,41 @@ public class ClienteController {
     };
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteStandartDto> findById(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(clienteService.findById(id));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ClienteStandartDto findById(
+        @NotNull(message = "O id do usuário deve ser não nulo")
+        @Positive(message = "O id do usuário deve ser positivo")
+        @PathVariable Long id
+    ) {
+        return clienteService.findById(id);
+        
     } 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ClienteStandartDto create(@RequestBody ClienteStandartDto dto) {
+    public ClienteStandartDto create(
+        @Valid
+        @RequestBody ClienteStandartDto dto
+    ) {
         return clienteService.create(dto);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody ClientePutDto dto) {
-        
-        try {  
-            clienteService.update(dto);
-            return ResponseEntity.ok().build();
-        } catch(Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public void update(
+        @Valid
+        @RequestBody ClientePutDto dto
+    ) {
+         
+        clienteService.update(dto);
+            
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        try {
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(
+        @NotNull(message = "O id do usuário deve ser não nulo")
+        @Positive(message = "O id do usuário deve ser positivo")
+        @PathVariable Long id
+    ) {
+        clienteService.delete(id);
     }
 }

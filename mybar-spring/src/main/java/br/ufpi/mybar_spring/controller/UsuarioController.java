@@ -3,7 +3,7 @@ package br.ufpi.mybar_spring.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioRequestDto;
 import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioResponseDto;
 import br.ufpi.mybar_spring.services.UsuarioService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
+@Validated
 @RestController
 @RequestMapping("/api/usuarios")
 @RequiredArgsConstructor
@@ -32,38 +36,39 @@ public class UsuarioController {
     };
 
     @GetMapping("/{codigo}")
-    public ResponseEntity<UsuarioResponseDto> findById(@PathVariable Long codigo) {
-        try {
-            return ResponseEntity.ok(usuarioService.findById(codigo));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public UsuarioResponseDto findById(
+        @NotNull(message = "O id fornecido é nulo")
+        @Positive(message = "O id fornecido deve ser positivo")
+        @PathVariable 
+        Long codigo
+    ) {
+        return usuarioService.findById(codigo);
     } 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UsuarioResponseDto create(@RequestBody UsuarioRequestDto dto) {
+    public UsuarioResponseDto create(
+        @Valid
+        @RequestBody UsuarioRequestDto dto
+    ) {
         return usuarioService.create(dto);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody UsuarioRequestDto dto) {
-        
-        try {  
-            usuarioService.update(dto);
-            return ResponseEntity.ok().build();
-        } catch(Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public void update(
+        @Valid
+        @RequestBody UsuarioRequestDto dto
+    ) {
+        usuarioService.update(dto);
     }
 
     @DeleteMapping("/{codigo}")
-    public ResponseEntity<Void> delete(@PathVariable Long codigo) {
-        try {
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(
+        @NotNull(message = "O id não pode ser nulo")
+        @Positive(message = "O id deve ser positivo")
+        @PathVariable Long codigo
+    ) {
+        usuarioService.delete(codigo);
     }
 }

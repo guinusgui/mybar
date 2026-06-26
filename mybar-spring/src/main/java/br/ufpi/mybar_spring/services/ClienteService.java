@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import br.ufpi.mybar_spring.dto.dto.cliente.ClientePutDto;
 import br.ufpi.mybar_spring.dto.dto.cliente.ClienteStandartDto;
 import br.ufpi.mybar_spring.dto.mapper.ClienteMapper;
+import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
 import br.ufpi.mybar_spring.repositories.ClienteRepo;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,8 @@ public class ClienteService {
         return ClienteMapper.toDto(
             clienteRepo.findById(id)
                 .orElseThrow(
-                    () -> new RuntimeException("Cliente não encontrado")
+                    () -> new EntidadeNaoEncontrada(
+                        "O id fornecido não corresponde a nenhum cliente")
                 ));
         
     }
@@ -40,8 +42,8 @@ public class ClienteService {
     public void update(ClientePutDto dto) {
         
         Cliente u = clienteRepo.findById(dto.id())
-            .orElseThrow(() -> new RuntimeException(
-                "Cliente inexistente"
+            .orElseThrow(() -> new EntidadeNaoEncontrada(
+                "O id fornecido não corresponde a nenhum cliente"
             )
         );
 
@@ -52,19 +54,19 @@ public class ClienteService {
         clienteRepo.save(u);
     }
 
-    public void delete(Long codigo) {
+    public void delete(Long id) {
+        if(!clienteRepo.existsById(id))
+            throw new EntidadeNaoEncontrada(
+            "O id fornecido não corresponde a nenhum cliente"
+        );
+
         try {
-            clienteRepo.deleteById(codigo);
+            clienteRepo.deleteById(id);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(
                 "Requisição nula, impossível prosseguir", e
             );
-        } catch (Exception e) {
-            throw new RuntimeException(
-                "O código enviado não pertence a nenhum usuário no banco", e
-            );
         }
-        
     }
 
 }
