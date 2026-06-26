@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioRequestDto;
-import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioResponseDto;
+import br.ufpi.mybar_spring.dto.objects.usuario.UsuarioRequestDto;
+import br.ufpi.mybar_spring.dto.objects.usuario.UsuarioResponseDto;
 import br.ufpi.mybar_spring.services.UsuarioService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

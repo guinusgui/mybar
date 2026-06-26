@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioRequestDto;
-import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioResponseDto;
 import br.ufpi.mybar_spring.dto.mapper.UsuarioMapper;
+import br.ufpi.mybar_spring.dto.objects.usuario.UsuarioRequestDto;
+import br.ufpi.mybar_spring.dto.objects.usuario.UsuarioResponseDto;
 import br.ufpi.mybar_spring.exceptions.custom.RequisicaoIlegal;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.models.usuario.Usuario;

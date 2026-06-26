@@ -1,4 +1,4 @@
-package br.ufpi.mybar_spring.dto.dto.conta;
+package br.ufpi.mybar_spring.dto.objects.conta;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

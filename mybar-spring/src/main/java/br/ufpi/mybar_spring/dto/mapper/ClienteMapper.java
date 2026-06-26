@@ -1,6 +1,6 @@
 package br.ufpi.mybar_spring.dto.mapper;
 
-import br.ufpi.mybar_spring.dto.dto.cliente.ClienteStandartDto;
+import br.ufpi.mybar_spring.dto.objects.cliente.ClienteStandartDto;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
 
 public class ClienteMapper {

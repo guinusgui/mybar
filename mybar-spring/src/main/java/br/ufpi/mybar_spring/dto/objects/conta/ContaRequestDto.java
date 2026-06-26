@@ -1,4 +1,4 @@
-package br.ufpi.mybar_spring.dto.dto.conta;
+package br.ufpi.mybar_spring.dto.objects.conta;
 
 import br.ufpi.mybar_spring.models.conta.ContaStatus;
 

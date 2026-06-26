@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.ufpi.mybar_spring.dto.dto.conta.ContaRequestDto;
-import br.ufpi.mybar_spring.dto.dto.conta.ContaResponseDto;
 import br.ufpi.mybar_spring.dto.mapper.ContaMapper;
+import br.ufpi.mybar_spring.dto.objects.conta.ContaRequestDto;
+import br.ufpi.mybar_spring.dto.objects.conta.ContaResponseDto;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.exceptions.custom.RequisicaoIlegal;
 import br.ufpi.mybar_spring.models.cliente.Cliente;

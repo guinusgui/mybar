@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufpi.mybar_spring.dto.objects.conta.ContaRequestDto;
-import br.ufpi.mybar_spring.dto.objects.conta.ContaResponseDto;
-import br.ufpi.mybar_spring.services.ContaService;
+import br.ufpi.mybar_spring.dto.objects.item.ItemDoCardapioDto;
+import br.ufpi.mybar_spring.services.CardapioService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -24,50 +23,52 @@ import lombok.RequiredArgsConstructor;
 
 @Validated
 @RestController
-@RequestMapping("/api/contas")
+@RequestMapping("/api/cardapio")
 @RequiredArgsConstructor
-public class ContaController {
-    
-    private final ContaService contaService;
+public class CardapioController {
+     private final CardapioService cardapioService;
 
     @GetMapping
-    public List<ContaResponseDto> list() {
-        return contaService.list();
-    }
-    
-    @GetMapping("/{numero}")
-    public ContaResponseDto findById(
-        @NotNull(message = "O número da conta deve ser não nulo")
-        @Positive(message = "O número da conta deve ser positivo")
-        @PathVariable Long numero
+    public List<ItemDoCardapioDto> list() {
+        return cardapioService.list();
+    };
+
+    @GetMapping("/{codigo}")
+    public ItemDoCardapioDto findById(
+        @NotNull(message = "O codigo do item deve ser não nulo")
+        @Positive(message = "O codigo do item deve ser positivo")
+        @PathVariable Long codigo
     ) {
-        return contaService.findById(numero);
-    }
+        return cardapioService.findById(codigo);
+        
+    } 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ContaResponseDto create(
+    public ItemDoCardapioDto create(
         @Valid
-        @RequestBody ContaRequestDto dto
+        @RequestBody ItemDoCardapioDto dto
     ) {
-        return contaService.create(dto);
+        return cardapioService.create(dto);
     }
 
     @PutMapping
-    public void update(@RequestBody ContaRequestDto dto) {
-            contaService.update(dto);
+    public void update(
+        @Valid
+        @RequestBody ItemDoCardapioDto dto
+    ) {
+         
+        cardapioService.update(dto);
+            
     }
 
-    @DeleteMapping("/{numero}")
+    @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
-        @NotNull(message = "O número da conta deve ser não nulo")
-        @Positive(message = "O número da conta deve ser positivo")
-        Long numero
+        @NotNull(message = "O codigo do item deve ser não nulo")
+        @Positive(message = "O codigo do item deve ser positivo")
+        @PathVariable Long codigo
     ) {
-        
-        contaService.delete(numero);
-           
+        cardapioService.delete(codigo);
     }
-    
 }

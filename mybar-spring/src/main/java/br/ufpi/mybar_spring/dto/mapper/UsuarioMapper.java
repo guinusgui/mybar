@@ -1,7 +1,7 @@
 package br.ufpi.mybar_spring.dto.mapper;
 
-import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioRequestDto;
-import br.ufpi.mybar_spring.dto.dto.usuario.UsuarioResponseDto;
+import br.ufpi.mybar_spring.dto.objects.usuario.UsuarioRequestDto;
+import br.ufpi.mybar_spring.dto.objects.usuario.UsuarioResponseDto;
 import br.ufpi.mybar_spring.models.usuario.Usuario;
 
 public class UsuarioMapper {

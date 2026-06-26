@@ -1,4 +1,4 @@
-package br.ufpi.mybar_spring.dto.dto.usuario;
+package br.ufpi.mybar_spring.dto.objects.usuario;
 
 import br.ufpi.mybar_spring.models.usuario.TipoDeUsuario;
 

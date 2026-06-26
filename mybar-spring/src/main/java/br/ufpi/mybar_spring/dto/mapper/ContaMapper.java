@@ -1,8 +1,8 @@
 package br.ufpi.mybar_spring.dto.mapper;
 
 
-import br.ufpi.mybar_spring.dto.dto.conta.ContaRequestDto;
-import br.ufpi.mybar_spring.dto.dto.conta.ContaResponseDto;
+import br.ufpi.mybar_spring.dto.objects.conta.ContaRequestDto;
+import br.ufpi.mybar_spring.dto.objects.conta.ContaResponseDto;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
 import br.ufpi.mybar_spring.models.conta.Conta;
 import br.ufpi.mybar_spring.models.usuario.Usuario;

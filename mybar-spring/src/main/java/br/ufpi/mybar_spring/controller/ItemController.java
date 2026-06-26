@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufpi.mybar_spring.dto.objects.conta.ContaRequestDto;
-import br.ufpi.mybar_spring.dto.objects.conta.ContaResponseDto;
-import br.ufpi.mybar_spring.services.ContaService;
+import br.ufpi.mybar_spring.dto.objects.item.ItemDto;
+import br.ufpi.mybar_spring.services.ItemService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -24,50 +23,52 @@ import lombok.RequiredArgsConstructor;
 
 @Validated
 @RestController
-@RequestMapping("/api/contas")
+@RequestMapping("/api/itens")
 @RequiredArgsConstructor
-public class ContaController {
+public class ItemController {
     
-    private final ContaService contaService;
+    private final ItemService itemService;
 
     @GetMapping
-    public List<ContaResponseDto> list() {
-        return contaService.list();
-    }
-    
-    @GetMapping("/{numero}")
-    public ContaResponseDto findById(
-        @NotNull(message = "O número da conta deve ser não nulo")
-        @Positive(message = "O número da conta deve ser positivo")
-        @PathVariable Long numero
+    public List<ItemDto> list() {
+        return itemService.list();
+    };
+
+    @GetMapping("/{codigo}")
+    public ItemDto findById(
+        @NotNull(message = "O codigo fornecido é nulo")
+        @Positive(message = "O codigo fornecido deve ser positivo")
+        @PathVariable 
+        Long codigo
     ) {
-        return contaService.findById(numero);
-    }
+        return itemService.findById(codigo);
+    } 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ContaResponseDto create(
+    public ItemDto create(
         @Valid
-        @RequestBody ContaRequestDto dto
+        @RequestBody ItemDto dto
     ) {
-        return contaService.create(dto);
+        return itemService.create(dto);
     }
 
     @PutMapping
-    public void update(@RequestBody ContaRequestDto dto) {
-            contaService.update(dto);
+    public void update(
+        @Valid
+        @RequestBody ItemDto dto
+    ) {
+        itemService.update(dto);
     }
 
-    @DeleteMapping("/{numero}")
+    @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
-        @NotNull(message = "O número da conta deve ser não nulo")
-        @Positive(message = "O número da conta deve ser positivo")
-        Long numero
+        @NotNull(message = "O codigo não pode ser nulo")
+        @Positive(message = "O codigo deve ser positivo")
+        @PathVariable Long codigo
     ) {
-        
-        contaService.delete(numero);
-           
+        itemService.delete(codigo);
     }
-    
 }
+

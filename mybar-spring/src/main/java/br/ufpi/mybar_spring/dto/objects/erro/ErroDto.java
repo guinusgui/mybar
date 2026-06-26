@@ -1,4 +1,4 @@
-package br.ufpi.mybar_spring.dto.dto.erro;
+package br.ufpi.mybar_spring.dto.objects.erro;
 
 import java.time.LocalDateTime;
 

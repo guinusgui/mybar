@@ -1,4 +1,4 @@
-package br.ufpi.mybar_spring.dto.dto.cliente;
+package br.ufpi.mybar_spring.dto.objects.cliente;
 
 import br.ufpi.mybar_spring.models.cliente.ClienteSexo;
 import jakarta.validation.constraints.NotBlank;

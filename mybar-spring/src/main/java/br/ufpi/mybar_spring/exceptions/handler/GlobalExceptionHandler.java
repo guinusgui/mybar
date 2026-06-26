@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import br.ufpi.mybar_spring.dto.dto.erro.ErroDto;
+import br.ufpi.mybar_spring.dto.objects.erro.ErroDto;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.exceptions.custom.RequisicaoIlegal;
 import jakarta.servlet.http.HttpServletRequest;
@@ -63,20 +63,11 @@ public class GlobalExceptionHandler {
         MethodArgumentNotValidException  ex,
         HttpServletRequest request
     ){
-        String errorMessage = ex.getBindingResult()
-            .getFieldErrors()
-            .stream()
-            .map(error -> 
-                error.getField() +": " + error.getDefaultMessage()
-            )
-            .findFirst()
-            .orElse("Erro de Validação");
-
         ErroDto erro = new ErroDto(
             LocalDateTime.now(),
             HttpStatus.BAD_REQUEST.value(),
             HttpStatus.BAD_REQUEST.getReasonPhrase(),
-            errorMessage,
+            "O corpo da requisição não corresponde a um objeto",
             request.getRequestURI()
         );
 
@@ -90,16 +81,17 @@ public class GlobalExceptionHandler {
         ConstraintViolationException  ex,
         HttpServletRequest request
     ){
-        String errorMessage = ex.getConstraintViolations()
-            .stream()
-            .map(ConstraintViolation::getMessage)
-            .collect(Collectors.joining("; "));
+
+        // String em = ex.getConstraintViolations()
+        //     .stream()
+        //     .map(ConstraintViolation::getMessage)
+        //     .collect(Collectors.joining("; "));
 
         ErroDto erro = new ErroDto(
             LocalDateTime.now(),
             HttpStatus.BAD_REQUEST.value(),
             HttpStatus.BAD_REQUEST.getReasonPhrase(),
-            errorMessage,
+            "O corpo da requição não corresponde um objeto",
             request.getRequestURI()
         );
 

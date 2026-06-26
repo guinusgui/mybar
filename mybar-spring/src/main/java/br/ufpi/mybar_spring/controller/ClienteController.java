@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufpi.mybar_spring.dto.dto.cliente.ClientePutDto;
-import br.ufpi.mybar_spring.dto.dto.cliente.ClienteStandartDto;
+import br.ufpi.mybar_spring.dto.objects.cliente.ClientePutDto;
+import br.ufpi.mybar_spring.dto.objects.cliente.ClienteStandartDto;
 import br.ufpi.mybar_spring.services.ClienteService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

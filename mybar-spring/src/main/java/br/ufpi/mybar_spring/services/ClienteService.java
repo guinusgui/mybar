@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.ufpi.mybar_spring.dto.dto.cliente.ClientePutDto;
-import br.ufpi.mybar_spring.dto.dto.cliente.ClienteStandartDto;
 import br.ufpi.mybar_spring.dto.mapper.ClienteMapper;
+import br.ufpi.mybar_spring.dto.objects.cliente.ClientePutDto;
+import br.ufpi.mybar_spring.dto.objects.cliente.ClienteStandartDto;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
 import br.ufpi.mybar_spring.repositories.ClienteRepo;
