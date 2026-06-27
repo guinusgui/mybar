@@ -1,13 +1,12 @@
 package br.ufpi.mybar_spring.dto.mapper;
 
-import br.ufpi.mybar_spring.dto.objects.cliente.ClienteStandartDto;
+import br.ufpi.mybar_spring.dto.objects.cliente.ClienteDto;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
 
 public class ClienteMapper {
     
-    public static ClienteStandartDto toDto(Cliente c) {
-        return new ClienteStandartDto(
-            c.getId(),
+    public static ClienteDto toDto(Cliente c) {
+        return new ClienteDto(
             c.getNome(),
             c.getCpf(),
             c.getTelefone(),
@@ -15,9 +14,8 @@ public class ClienteMapper {
         );
     }
 
-    public static Cliente toEntity(ClienteStandartDto dto) {
+    public static Cliente toEntity(ClienteDto dto) {
         Cliente c = new Cliente();
-        c.setId(dto.id());
         c.setNome(dto.nome());
         c.setCpf(dto.cpf());
         c.setTelefone(dto.telefone());

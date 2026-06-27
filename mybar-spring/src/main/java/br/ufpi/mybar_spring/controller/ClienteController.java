@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufpi.mybar_spring.dto.objects.cliente.ClientePutDto;
-import br.ufpi.mybar_spring.dto.objects.cliente.ClienteStandartDto;
+import br.ufpi.mybar_spring.dto.objects.cliente.ClienteDto;
 import br.ufpi.mybar_spring.services.ClienteService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -31,25 +30,25 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @GetMapping
-    public List<ClienteStandartDto> list() {
+    public List<ClienteDto> list() {
         return clienteService.list();
     };
 
-    @GetMapping("/{id}")
-    public ClienteStandartDto findById(
+    @GetMapping("/{cpf}")
+    public ClienteDto findById(
         @NotNull(message = "O id do usuário deve ser não nulo")
         @Positive(message = "O id do usuário deve ser positivo")
-        @PathVariable Long id
+        @PathVariable String cpf
     ) {
-        return clienteService.findById(id);
+        return clienteService.findById(cpf);
         
     } 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ClienteStandartDto create(
+    public ClienteDto create(
         @Valid
-        @RequestBody ClienteStandartDto dto
+        @RequestBody ClienteDto dto
     ) {
         return clienteService.create(dto);
     }
@@ -57,20 +56,20 @@ public class ClienteController {
     @PutMapping
     public void update(
         @Valid
-        @RequestBody ClientePutDto dto
+        @RequestBody ClienteDto dto
     ) {
          
         clienteService.update(dto);
             
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{cpf}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
         @NotNull(message = "O id do usuário deve ser não nulo")
         @Positive(message = "O id do usuário deve ser positivo")
-        @PathVariable Long id
+        @PathVariable String cpf
     ) {
-        clienteService.delete(id);
+        clienteService.delete(cpf);
     }
 }

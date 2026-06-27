@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import br.ufpi.mybar_spring.dto.mapper.ClienteMapper;
-import br.ufpi.mybar_spring.dto.objects.cliente.ClientePutDto;
-import br.ufpi.mybar_spring.dto.objects.cliente.ClienteStandartDto;
+import br.ufpi.mybar_spring.dto.objects.cliente.ClienteDto;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
 import br.ufpi.mybar_spring.repositories.ClienteRepo;
@@ -17,15 +16,15 @@ import lombok.RequiredArgsConstructor;
 public class ClienteService {
     private final ClienteRepo clienteRepo;
 
-    public List<ClienteStandartDto> list() {
+    public List<ClienteDto> list() {
         return clienteRepo.findAll().stream()
             .map(ClienteMapper::toDto)
             .toList();
     }
 
-    public ClienteStandartDto findById(Long id) {
+    public ClienteDto findById(String cpf) {
         return ClienteMapper.toDto(
-            clienteRepo.findById(id)
+            clienteRepo.findById(cpf)
                 .orElseThrow(
                     () -> new EntidadeNaoEncontrada(
                         "O id fornecido não corresponde a nenhum cliente")
@@ -33,15 +32,15 @@ public class ClienteService {
         
     }
 
-    public ClienteStandartDto create(ClienteStandartDto dto) {
+    public ClienteDto create(ClienteDto dto) {
         return ClienteMapper.toDto(
             clienteRepo.save(ClienteMapper.toEntity(dto))
         );
     }
 
-    public void update(ClientePutDto dto) {
+    public void update(ClienteDto dto) {
         
-        Cliente u = clienteRepo.findById(dto.id())
+        Cliente u = clienteRepo.findById(dto.cpf())
             .orElseThrow(() -> new EntidadeNaoEncontrada(
                 "O id fornecido não corresponde a nenhum cliente"
             )
@@ -54,14 +53,14 @@ public class ClienteService {
         clienteRepo.save(u);
     }
 
-    public void delete(Long id) {
-        if(!clienteRepo.existsById(id))
+    public void delete(String cpf) {
+        if(!clienteRepo.existsById(cpf))
             throw new EntidadeNaoEncontrada(
             "O id fornecido não corresponde a nenhum cliente"
         );
 
         try {
-            clienteRepo.deleteById(id);
+            clienteRepo.deleteById(cpf);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(
                 "Requisição nula, impossível prosseguir", e

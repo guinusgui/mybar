@@ -18,7 +18,8 @@ public class ContaMapper{
             c.getData_da_abertura(),
             c.getHora_da_abertura(),
             c.getDono(),
-            c.getQuem_abriu()
+            c.getQuem_abriu(),
+            c.getItens_pendentes()
         );
     }
 

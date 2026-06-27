@@ -37,8 +37,10 @@ public class CardapioService {
 
     public ItemDoCardapioDto create(ItemDoCardapioDto dto) {
         Item i = itemRepo.findById(dto.tipo())
-            .orElseThrow(() -> new EntidadeNaoEncontrada(
-                "O id fornecido não corresponde a nenhum cliente"));
+                .orElseThrow(() -> new EntidadeNaoEncontrada(
+                    "O id fornecido não corresponde a nenhum cliente"
+                )
+            );
         
         if(!cardapioRepo.existsById(dto.codigo()))
             return ItemCardapioMapper.toDto(cardapioRepo.save(ItemCardapioMapper.toEntity(dto, i)));
@@ -50,10 +52,10 @@ public class CardapioService {
 
     public void update(ItemDoCardapioDto dto) {
         Item i = itemRepo.findById(dto.tipo())
-            .orElseThrow(() -> new EntidadeNaoEncontrada(
-                "O id fornecido não corresponde a nenhum cliente"
-            )
-        );
+                .orElseThrow(() -> new EntidadeNaoEncontrada(
+                    "O id fornecido não corresponde a nenhum cliente"
+                )
+            );
 
         if(cardapioRepo.existsById(dto.codigo()))
             cardapioRepo.save(ItemCardapioMapper.toEntity(dto, i));

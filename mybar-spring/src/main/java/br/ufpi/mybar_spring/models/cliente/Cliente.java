@@ -21,16 +21,11 @@ import lombok.Setter;
 public class Cliente {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank
-    @Column(nullable = false)
-    private String nome;
-
-    @NotBlank @CPF
     @Column(nullable = false, unique = true)
     private String cpf;
+
+    @Column(nullable = false)
+    private String nome;
 
     @Column(nullable = false, unique = true)
     private String telefone;

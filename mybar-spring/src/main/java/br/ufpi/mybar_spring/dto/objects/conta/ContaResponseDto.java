@@ -2,8 +2,10 @@ package br.ufpi.mybar_spring.dto.objects.conta;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import br.ufpi.mybar_spring.models.cliente.Cliente;
+import br.ufpi.mybar_spring.models.compras.Compra;
 import br.ufpi.mybar_spring.models.conta.ContaStatus;
 import br.ufpi.mybar_spring.models.usuario.Usuario;
 
@@ -13,7 +15,8 @@ public record ContaResponseDto(
     LocalDate data,
     LocalTime hora,
     Cliente dono,
-    Usuario quem_abriu
+    Usuario quem_abriu,
+    List<Compra> itens
 ) {
     
 }

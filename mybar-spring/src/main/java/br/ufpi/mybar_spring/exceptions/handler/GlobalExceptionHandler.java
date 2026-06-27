@@ -1,7 +1,6 @@
 package br.ufpi.mybar_spring.exceptions.handler;
 
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import br.ufpi.mybar_spring.dto.objects.erro.ErroDto;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.exceptions.custom.RequisicaoIlegal;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
@@ -81,11 +79,6 @@ public class GlobalExceptionHandler {
         ConstraintViolationException  ex,
         HttpServletRequest request
     ){
-
-        // String em = ex.getConstraintViolations()
-        //     .stream()
-        //     .map(ConstraintViolation::getMessage)
-        //     .collect(Collectors.joining("; "));
 
         ErroDto erro = new ErroDto(
             LocalDateTime.now(),

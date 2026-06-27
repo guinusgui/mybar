@@ -7,8 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record ClienteStandartDto(
-    Long id,
+public record ClienteDto(
     @NotBlank String nome,
     @NotBlank @CPF String cpf,
     @NotBlank @Pattern(
