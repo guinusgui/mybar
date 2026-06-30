@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+/* Buttons */
+.juicyButton {
+  cursor: pointer;
+  transition: all 50ms ease-in-out;
+}
+
+.juicyButton:hover {
+  scale: 1.1;
+}
+
+.juicyButton:active {
+  scale: 0.95;
+}

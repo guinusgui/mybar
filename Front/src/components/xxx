@@ -1,0 +1,145 @@
+import { useState } from "react";
+import { Lock } from "lucide-react";
+
+export default function DataForms({
+  data = [],
+  setData,
+  columns = null,
+  editableFields = [],
+  onChange,
+
+  className = "",
+  style = {},
+}) {
+  // ----- STATES ------
+  const [editing, setEditing] = useState(null);
+  // { row: number, key: string }
+
+  const [draft, setDraft] = useState("");
+
+  const cols =
+    columns ||
+    (data.length
+      ? Object.keys(data[0]).map((key) => ({
+          key,
+          label: key,
+        }))
+      : []);
+
+  const isEditable = (key) =>
+    editableFields.includes("*") || editableFields.includes(key);
+
+  // ----- EDITOR HANDLERS ------
+  function beginEdit(rowIndex, key) {
+    if (!isEditable(key)) return;
+
+    setEditing({
+      row: rowIndex,
+      key,
+    });
+
+    setDraft(data[rowIndex][key] ?? "");
+  }
+
+  function cancelEdit() {
+    setEditing(null);
+    setDraft("");
+  }
+
+  function saveEdit() {
+    if (!editing) return;
+
+    const updated = data.map((row, idx) =>
+      idx === editing.row
+        ? {
+            ...row,
+            [editing.key]: draft,
+          }
+        : row,
+    );
+
+    setData(updated);
+    setEditing(null);
+    setDraft("");
+
+    onChange?.(updated);
+  }
+
+  // ----- RENDERING A SINGLE LINE (DATA OR INPUT) ------
+  function renderValue(row, rowIndex, col) {
+    const active =
+      editing && editing.row === rowIndex && editing.key === col.key;
+
+    let el;
+
+    if (active) {
+      el = (
+        <input
+          autoFocus
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={saveEdit}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") saveEdit();
+            if (e.key === "Escape") cancelEdit();
+          }}
+          className="w-full rounded border border-blue-300 px-2 py-1 outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      );
+    } else {
+      el = (
+        <div className={`rounded px-2 py-1 transition-colors`}>
+          {String(row[col.key] ?? "—")}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className={`border-b px-4 py-3 text-center flex flex-col justify-center ${
+          isEditable(col.key) ? "cursor-text hover:bg-blue-50" : "text-gray-500"
+        }`}
+        onClick={active ? null : () => beginEdit(rowIndex, col.key)}
+      >
+        {el}
+      </div>
+    );
+  }
+
+  // ----- RENDERING ALL LINES ------
+  return (
+    <div className={`${className}`} style={style}>
+      {data.map((row, rowIndex) => (
+        <div
+          key={rowIndex}
+          className="h-full w-full overflow-hidden rounded-xl border border-gray-200 shadow-sm"
+        >
+          {/* If there's more than 1 row in data, show register index */}
+          {data.length > 1 && (
+            <div className="border-b bg-gray-50 px-4 py-2 font-medium">
+              Registro {rowIndex + 1}
+            </div>
+          )}
+
+          {/* Render each Row */}
+          <div className="grid grid-cols-[250px_1fr] w-full h-full">
+            {cols.map((col) => (
+              <div key={col.key} className="contents">
+                {/* Render Current Key */}
+                <div className="border-b border-r bg-gray-50 px-4 py-3 font-medium text-gray-700 flex items-center gap-2">
+                  {!isEditable(col.key) && (
+                    <Lock size={14} className="text-gray-400" />
+                  )}
+                  {col.label}
+                </div>
+
+                {/* Render Current Value */}
+                {renderValue(row, rowIndex, col)}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
