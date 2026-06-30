@@ -30,6 +30,10 @@ import KitchenControlScreen from "./components/Screens/KitchenControlScreen";
 import DeliveryControlScreen from "./components/Screens/DeliveryControlScreen";
 import SettingsScreen from "./components/Screens/SettingsScreen";
 import UserManagingScreen from "./components/Screens/UserManagingScreen";
+import ScreenSelector from "./components/Screens/ScreenSelector";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import routes from "./routes";
 
 export default function App2() {
   const [open, setOpen] = useState(false);
@@ -38,46 +42,47 @@ export default function App2() {
     <ConfirmationProvider>
       <ModalProvider>
         <div className="m-4 p-4 h-[90dvh] overflow-scroll relative">
-          {/* <SearchAccounts></SearchAccounts> */}
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<ScreenSelector />} />
+              {routes.map((endpoint) => {
+                return (
+                  <Route path={endpoint.route} element={endpoint.element} />
+                );
+              })}
 
-          {/* <PostItemsForms></PostItemsForms> */}
-          {/* <WaiterAuth></WaiterAuth> */}
-          {/* <WaiterAuthScreen></WaiterAuthScreen> */}
-          {/* <AccountClosure /> */}
-          {/* <PaymentForms /> */}
-          {/* <WaiterAuth></WaiterAuth> */}
-
-          {/* <MenuManagingScreen /> */}
-          {/* <ItemTypeManagingScreen /> */}
-          {/* <KitchenControlScreen /> */}
-          {/* <DeliveryControlScreen /> */}
-          {/* <SettingsScreen /> */}
-          <UserManagingScreen />
+              <Route path="/a" element={<UserManagingScreen />}></Route>
+            </Routes>
+          </BrowserRouter>
         </div>
-        {/* <AccountForms></AccountForms> */}
       </ModalProvider>
     </ConfirmationProvider>
   );
 
-  // return (
-  //   <>
-  //     <button onClick={() => setOpen(true)}>Abrir modal</button>
+  //             <Route path="/" element={
 
-  //     <Modal
-  //       isOpen={open}
-  //       onClose={() => setOpen(false)}
-  //       title="Detalhes"
-  //       style={{
-  //         width: "90dvw",
-  //         height: "90dvh",
-  //       }}
-  //     >
-  //       <JsonTableForm
-  //         data={data}
-  //         editableFields={["*"]} // id e email ficam read-only
-  //         onChange={setData}
-  //       />
-  //     </Modal>
-  //   </>
-  // );
+  // <>
+  //         <div className="m-4 p-4 h-[90dvh] overflow-scroll relative">
+  //           {/* <SearchAccounts></SearchAccounts> */}
+
+  //           {/* <PostItemsForms></PostItemsForms> */}
+  //           {/* <WaiterAuth></WaiterAuth> */}
+  //           {/* <WaiterAuthScreen></WaiterAuthScreen> */}
+  //           {/* <AccountClosure /> */}
+  //           {/* <PaymentForms /> */}
+  //           {/* <WaiterAuth></WaiterAuth> */}
+
+  //           {/* <MenuManagingScreen /> */}
+  //           {/* <ItemTypeManagingScreen /> */}
+  //           {/* <KitchenControlScreen /> */}
+  //           {/* <DeliveryControlScreen /> */}
+  //           {/* <SettingsScreen /> */}
+  //           {/* <UserManagingScreen /> */}
+
+  //           <ScreenSelector />
+  //         </div>
+  //         {/* <AccountForms></AccountForms> */}
+
+  // </>
+  //         }/>
 }

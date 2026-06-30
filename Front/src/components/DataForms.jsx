@@ -180,8 +180,9 @@ const DataForms = function DataForms({
         return (
           <input
             autoFocus
-            type="number"
+            type="text"
             value={draft}
+            pattern="\d*"
             onChange={(e) => setDraft(Number(e.target.value))}
             onBlur={saveEdit}
             onKeyDown={handleInputKeyDown}
