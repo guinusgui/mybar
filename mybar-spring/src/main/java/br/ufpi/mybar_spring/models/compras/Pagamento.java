@@ -28,19 +28,19 @@ public class Pagamento {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        foreignKey = @ForeignKey(name = "fk_conta_associada")
+        foreignKey = @ForeignKey(name = "fk_conta_associada_pagamento")
     )
     private Conta conta_associada;
 
     @ManyToOne
     @JoinColumn(
-        foreignKey = @ForeignKey(name = "fk_quem_lancou")
+        foreignKey = @ForeignKey(name = "fk_quem_lancou_pagamento")
     )
     private Usuario quem_lancou;
 
     @ManyToOne
     @JoinColumn(
-        foreignKey = @ForeignKey(name = "fk_quem_excluiu")
+        foreignKey = @ForeignKey(name = "fk_quem_excluiu_pagamento")
     )
     private Usuario quem_excluiu;
 }

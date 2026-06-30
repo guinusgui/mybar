@@ -47,7 +47,7 @@ public class Compra {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        foreignKey = @ForeignKey(name = "fk_conta_associada")
+        foreignKey = @ForeignKey(name = "fk_conta_associada_pedido")
     )
     private Conta conta_associada;
 
@@ -56,19 +56,19 @@ public class Compra {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        foreignKey = @ForeignKey(name = "fk_item")
+        foreignKey = @ForeignKey(name = "fk_item_do_pedido")
     )
     private ItemDoCardapio item;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        foreignKey = @ForeignKey(name = "fk_quem_lancou")
+        foreignKey = @ForeignKey(name = "fk_quem_lancou_pedido")
     )
     private Usuario quem_lancou;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        foreignKey = @ForeignKey(name = "fk_quem_removeu")
+        foreignKey = @ForeignKey(name = "fk_quem_removeu_pedido")
     )
     private Usuario quem_removeu;
 

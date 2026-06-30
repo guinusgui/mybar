@@ -25,7 +25,7 @@ public class ItemDoCardapio {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        foreignKey = @ForeignKey(name = "fk_tipo")
+        foreignKey = @ForeignKey(name = "fk_tipo_cardapio")
     )
     private Item tipo;
     
