@@ -5,6 +5,9 @@ export function AccountServices() {
     const res = await fetch(`${apiURL}/contas`, {
       method: "POST",
       body: accountFields,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     const accounts = await res.json();

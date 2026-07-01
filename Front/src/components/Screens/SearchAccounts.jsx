@@ -22,6 +22,7 @@ import AccountClosure from "./AccountClosure";
 
 import SearchAccountForms from "../forms/SearchAccountForms";
 import RegisteredAccountsTable from "../tables/RegisteredAccountsTable";
+// import dtoAdapter from "@/utils/dtoAdapter";
 
 // Ta fora do formato, e por isso ta aparecendo tudo vazio
 const queriedData = [
@@ -52,7 +53,7 @@ export default function SearchAccounts() {
   const createNewAccount = async () => {
     const newAccountData = await askModal((res, closeModal) => {
       const onSave = () => {
-        res(tempData.current.getData());
+        res(tempData.current.getData()[0]);
         closeModal();
       };
 
@@ -75,7 +76,15 @@ export default function SearchAccounts() {
         </>
       );
     });
-    await accountServices.createAccount(newAccountData);
+
+    let dataToSend = {
+      numero: Number(newAccountData.accountNumber),
+      status: "ABERTA",
+      dono: newAccountData.name,
+      quem_abriu: Number(newAccountData.waiterCode),
+    };
+
+    await accountServices.createAccount(JSON.stringify(dataToSend));
   };
 
   // Registered Accounts Commands ----
