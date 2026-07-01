@@ -51,7 +51,7 @@ public class Conta {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        foreignKey = @ForeignKey(name = "fk_quem_abriu")
+        foreignKey = @ForeignKey(name = "fk_quem_abriu_conta")
     )
     private Usuario quem_abriu;
 

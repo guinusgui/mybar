@@ -7,6 +7,7 @@ import br.ufpi.mybar_spring.models.conta.Conta;
 import br.ufpi.mybar_spring.models.items.ItemDoCardapio;
 import br.ufpi.mybar_spring.models.items.LocalDeProducao;
 import br.ufpi.mybar_spring.models.usuario.Usuario;
+import br.ufpi.mybar_spring.tools.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -32,6 +33,8 @@ public class Compra {
 
     @Column(nullable = false)
     private Integer quantidade = 1;
+
+    private Status ativo = Status.ATIVO;
 
     @Column(nullable = false)
     private LocalDeProducao loco;
