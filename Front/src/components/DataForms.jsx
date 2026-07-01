@@ -180,8 +180,14 @@ const DataForms = function DataForms({
         return (
           <input
             autoFocus
-            type="text"
+            type="number"
             value={draft}
+            onInput={(e) => {
+              const input = e.currentTarget;
+              if (input.value.length > field.maxLength) {
+                input.value = input.value.slice(0, field.maxLength);
+              }
+            }}
             pattern="\d*"
             onChange={(e) => setDraft(Number(e.target.value))}
             onBlur={saveEdit}
