@@ -1,7 +1,7 @@
-import { serverURL } from "./serviceConstants";
+import { apiURL } from "./serviceConstants";
 
 export default async function searchAccount(accountFields) {
-  const res = await fetch(`${serverURL}/accounts/`, {
+  const res = await fetch(`${apiURL}/accounts/`, {
     method: "POST",
     body: accountFields,
   });

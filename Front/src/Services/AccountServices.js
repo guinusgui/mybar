@@ -1,8 +1,8 @@
-import { serverURL } from "./serviceConstants";
+import { apiURL } from "./serviceConstants";
 
 export function AccountServices() {
   async function createAccount(accountFields) {
-    const res = await fetch(`${serverURL}/accounts/`, {
+    const res = await fetch(`${apiURL}/contas`, {
       method: "POST",
       body: accountFields,
     });
@@ -12,7 +12,7 @@ export function AccountServices() {
   }
 
   async function searchAccount(accountFields) {
-    const res = await fetch(`${serverURL}/accounts/`, {
+    const res = await fetch(`${apiURL}/contas`, {
       method: "POST",
       body: accountFields,
     });
@@ -22,7 +22,7 @@ export function AccountServices() {
   }
 
   async function updateAccount(accountFields) {
-    const res = await fetch(`${serverURL}/accounts/`, {
+    const res = await fetch(`${apiURL}/contas`, {
       method: "POST",
       body: accountFields,
     });
@@ -32,7 +32,7 @@ export function AccountServices() {
   }
 
   async function deleteAccount(accountFields) {
-    const res = await fetch(`${serverURL}/accounts/`, {
+    const res = await fetch(`${apiURL}/contas/`, {
       method: "POST",
       body: accountFields,
     });
