@@ -1,6 +1,7 @@
 package br.ufpi.mybar_spring.exceptions.handler;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,11 +62,19 @@ public class GlobalExceptionHandler {
         MethodArgumentNotValidException  ex,
         HttpServletRequest request
     ){
+
+    String validationErrorMessage = ex.getBindingResult()
+                    .getFieldErrors()
+                    .stream()
+                    .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                    .collect(Collectors.joining(", "));
+    
+        System.out.println(ex);
         ErroDto erro = new ErroDto(
             LocalDateTime.now(),
             HttpStatus.BAD_REQUEST.value(),
             HttpStatus.BAD_REQUEST.getReasonPhrase(),
-            "O corpo da requisição não corresponde a um objeto",
+            validationErrorMessage,
             request.getRequestURI()
         );
 
@@ -97,6 +106,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErroDto> handleHttpMessageNotReadable(
         HttpMessageNotReadableException ex,
         HttpServletRequest request) {
+
+        System.out.println(ex);
+
 
     ErroDto error = new ErroDto(
         LocalDateTime.now(),
