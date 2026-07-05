@@ -43,11 +43,11 @@ public class ContaService {
     public ContaResponseDto create(ContaRequestDto dto) {
         Cliente c = clienteRepo.findById(dto.dono())
             .orElseThrow(() -> new EntidadeNaoEncontrada(
-                "O id fornecido não corresponde a nenhum cliente"));
+                "O cpf fornecido em 'dono' não corresponde a nenhum cliente"));
         
         Usuario u = usuarioRepo.findById(dto.quem_abriu())
             .orElseThrow(() -> new EntidadeNaoEncontrada(
-                "O codigo fornecido não corresponde a nenhum usuário"));
+                "O codigo de 'quem_abriu' fornecido não corresponde a nenhum usuário"));
         
         if(!contaRepo.existsById(dto.numero()))
             return ContaMapper.toDto(contaRepo.save(ContaMapper.toEntity(dto, c, u)));
@@ -60,13 +60,13 @@ public class ContaService {
     public void update(ContaRequestDto dto) {
         Cliente c = clienteRepo.findById(dto.dono())
             .orElseThrow(() -> new EntidadeNaoEncontrada(
-                "O id fornecido não corresponde a nenhum cliente"
+                "O cpf fornecido em 'dono' não corresponde a nenhum cliente"
             )
         );
         
         Usuario u = usuarioRepo.findById(dto.quem_abriu())
             .orElseThrow(() -> new EntidadeNaoEncontrada(
-                "O codigo fornecido não corresponde a nenhum usuário"
+                "O codigo de 'quem_abriu' não corresponde a nenhum usuário"
             )
         );
 
@@ -80,7 +80,7 @@ public class ContaService {
     public void delete(Long numero) {
         if(!contaRepo.existsById(numero))
             throw new EntidadeNaoEncontrada(
-        "O numero fornecido não corresponde a nenhuma conta"
+        "O 'numero' fornecido não corresponde a nenhuma conta"
         );
         try {
             contaRepo.deleteById(numero);

@@ -27,7 +27,7 @@ public class ClienteService {
             clienteRepo.findById(cpf)
                 .orElseThrow(
                     () -> new EntidadeNaoEncontrada(
-                        "O id fornecido não corresponde a nenhum cliente")
+                        "O cpf fornecido não corresponde a nenhum cliente")
                 ));
         
     }
@@ -42,7 +42,7 @@ public class ClienteService {
         
         Cliente u = clienteRepo.findById(dto.cpf())
             .orElseThrow(() -> new EntidadeNaoEncontrada(
-                "O id fornecido não corresponde a nenhum cliente"
+                "O cpf fornecido não corresponde a nenhum cliente"
             )
         );
 
@@ -56,7 +56,7 @@ public class ClienteService {
     public void delete(String cpf) {
         if(!clienteRepo.existsById(cpf))
             throw new EntidadeNaoEncontrada(
-            "O id fornecido não corresponde a nenhum cliente"
+            "O cpf fornecido não corresponde a nenhum cliente"
         );
 
         try {
