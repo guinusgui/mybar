@@ -3,8 +3,8 @@ import { Fields } from "@/catalog/fields";
 
 const fields = [
   Fields.itemCode(),
-  Fields.itemDescription(),
-  Fields.fromKitchen(),
+  Fields.description(),
+  Fields.from(),
   Fields.tipPercentage(),
 ];
 

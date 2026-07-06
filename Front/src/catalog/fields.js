@@ -65,7 +65,7 @@ export const Fields = {
     key: "gender",
     label: "Sexo",
     inputType: "select",
-    options: ["Masculino", "Feminino"],
+    options: ["MASCULINO", "FEMININO"],
   }),
 
   email: createField({
@@ -89,10 +89,7 @@ export const Fields = {
     key: "accountOpened",
     label: "Aberta?",
     inputType: "select",
-    options: [
-      { value: true, label: "Sim" },
-      { value: false, label: "Não" },
-    ],
+    options: ["ABERTA", "FECHADA"],
   }),
 
   accountStatus: createField({
@@ -160,8 +157,8 @@ export const Fields = {
     maxLength: 4,
   }),
 
-  itemDescription: createField({
-    key: "itemDescription",
+  description: createField({
+    key: "description",
     label: "Descrição",
     inputType: "text",
     maxLength: 255,
@@ -170,7 +167,8 @@ export const Fields = {
   itemType: createField({
     key: "itemType",
     label: "Tipo",
-    inputType: "text",
+    inputType: "number",
+    maxLength: 4,
     options: [],
   }),
 
@@ -193,14 +191,11 @@ export const Fields = {
     inputType: "percentage",
   }),
 
-  fromKitchen: createField({
-    key: "fromKitchen",
-    label: "Cozinha?",
+  from: createField({
+    key: "from",
+    label: "Origem",
     inputType: "select",
-    options: [
-      { value: true, label: "Sim" },
-      { value: false, label: "Não" },
-    ],
+    options: ["BAR", "COZINHA"],
   }),
 
   //--------------------------------------------------------
@@ -255,7 +250,7 @@ export const Fields = {
     key: "userType",
     label: "Tipo",
     inputType: "select",
-    options: ["Administrador", "Cozinha", "Garçom", "Atendente Balcão"],
+    options: ["ADMIN", "COZINHA", "GARCOM", "ATENDENTE"],
   }),
 
   //--------------------------------------------------------

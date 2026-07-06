@@ -32,6 +32,8 @@ import SettingsScreen from "./components/Screens/SettingsScreen";
 import UserManagingScreen from "./components/Screens/UserManagingScreen";
 import ScreenSelector from "./components/Screens/ScreenSelector";
 
+import { Toaster } from "react-hot-toast";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import routes from "./routes";
 
@@ -55,6 +57,7 @@ export default function App2() {
             </Routes>
           </BrowserRouter>
         </div>
+        <Toaster />
       </ModalProvider>
     </ConfirmationProvider>
   );

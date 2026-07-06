@@ -13,6 +13,7 @@ import accountServices from "@/Services/AccountServices";
 import ItemTypeForms from "../forms/ItemTypeForms";
 import KitchenAccountSearchForms from "../forms/KitchenAccountSearchForms";
 import KitchenOrdersTable from "../tables/KitchenOrdersTable";
+import findBestMatches from "@/utils/findBestMatches";
 
 // Ta fora do formato, e por isso ta aparecendo tudo vazio (nao por conta dos null)
 const sampleData = [{ accountStatus: "received" }];
@@ -26,11 +27,42 @@ export default function KitchenControlScreen() {
 
   // Search & Create Buttons ----
   const _searchAccount = async () => {
-    const searchedAccount = searchData.current.getData();
+    const searchedRecord = searchData.current.getData()[0];
+    const recordsFound = await menuServices.searchAll();
+    const recordsToSearch = recordsFound.map((record, idx_) => ({
+      ...record,
+      idx_,
+    }));
 
-    const accountsFounded =
-      await accountServices.searchAccount(searchedAccount);
-    console.log(accountsFounded);
+    const possibleMatches = findBestMatches(
+      recordsToSearch,
+      {
+        tipo: searchedRecord.itemType,
+        desc: searchedRecord.description,
+        codigo: searchedRecord.itemCode,
+      },
+      ["desc"],
+      ["tipo", "codigo"],
+    );
+
+    const matches = possibleMatches
+      .map(({ item, similarity, fieldSimilarity }) => {
+        for (similarity of Object.values(fieldSimilarity)) {
+          if (similarity > 0.8) return recordsFound[item.idx_];
+        }
+        return;
+      })
+      .filter((val) => val);
+
+    console.log(matches);
+    setSearchedMenu(
+      matches.map((match) => ({
+        itemCode: match.codigo,
+        description: match.desc,
+        itemType: match.tipo,
+        unitPrice: match.valor,
+      })),
+    );
   };
 
   const createNewType = async () => {

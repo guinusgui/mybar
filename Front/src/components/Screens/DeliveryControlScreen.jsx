@@ -129,7 +129,7 @@ export default function DeliveryControlScreen() {
           </span>
         ),
         onClick: postItems,
-        visible: (row) => row.accountStatus == "required" && !row.fromKitchen,
+        visible: (row) => row.accountStatus == "required" && !row.from,
       },
       {
         // Provide

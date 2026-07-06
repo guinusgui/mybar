@@ -3,7 +3,7 @@ import { Fields } from "@/catalog/fields";
 
 const fields = [
   Fields.itemCode(),
-  Fields.itemDescription(),
+  Fields.description(),
   Fields.itemType(),
   Fields.unitPrice(),
   Fields.tipPercentage(),

@@ -8,7 +8,7 @@ import {
   Search,
   Save,
 } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import BaseHeader from "../Generics/BaseHeader";
 
 import { useConfirmation } from "@/hooks/useConfirmationDialog";
@@ -16,15 +16,16 @@ import useModal from "@/hooks/useModal";
 import AccountForms from "../forms/AccountForms";
 
 import accountServices from "@/Services/AccountServices";
+import userServices, { UserServices } from "@/Services/UserServices";
 
 import PostItemsForms from "./PostItemsForms";
 import AccountClosure from "./AccountClosure";
 
-import SearchAccountForms from "../forms/SearchAccountForms";
-import RegisteredAccountsTable from "../tables/RegisteredAccountsTable";
 import UserForms from "../forms/UserForms";
 import UserTable from "../tables/UserTable";
 import UserCreationForms from "../forms/UserCreationForms";
+import findBestMatches from "@/utils/findBestMatches";
+import toast from "react-hot-toast";
 
 // Ta fora do formato, e por isso ta aparecendo tudo vazio
 const queriedData = [
@@ -37,6 +38,8 @@ const queriedData = [
   },
 ];
 export default function UserManagingScreen() {
+  const [usersSearched, setUsersSearched] = useState([]);
+
   const searchData = useRef();
   const tempData = useRef();
 
@@ -45,20 +48,91 @@ export default function UserManagingScreen() {
 
   // Search & Create Buttons ----
   const _searchAccount = async () => {
-    const searchedAccount = searchData.current.getData();
+    const searchedRecord = searchData.current.getData()[0];
+    const recordsFound = await userServices.searchAll();
+    const recordsToSearch = recordsFound.map((record, idx_) => ({
+      ...record,
+      idx_,
+    }));
 
-    const accountsFounded =
-      await accountServices.searchAccount(searchedAccount);
-    console.log(accountsFounded);
+    const possibleMatches = findBestMatches(
+      recordsToSearch,
+      {
+        nome: searchedRecord.name,
+      },
+      ["nome"],
+      [],
+    );
+
+    const matches = possibleMatches
+      .map(({ item, similarity, fieldSimilarity }) => {
+        for (similarity of Object.values(fieldSimilarity)) {
+          if (similarity > 0.8) return recordsFound[item.idx_];
+        }
+        return;
+      })
+      .filter((val) => val);
+
+    setUsersSearched(
+      matches.map((match) => ({
+        name: match.nome,
+        email: match.email,
+        userType: match.tipo,
+        userCode: match.codigo,
+      })),
+    );
   };
 
-  const createNewAccount = async () => {
-    const newAccountData = await askModal((res, closeModal) => {
-      const onSave = () => {
-        res(tempData.current.getData());
-        closeModal();
+  const createNewUser = async () => {
+    const onSave = async (closeModal) => {
+      const recordData = tempData.current.getData()[0];
+
+      for (const prop of [
+        "userCode",
+        "name",
+        "email",
+        "password",
+        "userType",
+      ]) {
+        if (!recordData[prop]) {
+          toast.error(
+            "Código, nome, email, senha e tipo de usuário devem ter um valor não nulo.",
+          );
+          return;
+        }
+      }
+
+      //     Long codigo,
+      //     String nome,
+      //     String email,
+      //     String senha,
+      //     TipoDeUsuario tipo
+
+      // "userCode",
+      // "name",
+      // "email",
+      // "password",
+      // "userType",
+
+      let dataToSend = {
+        codigo: recordData.userCode,
+        nome: recordData.name,
+        email: recordData.email,
+        senha: recordData.password,
+        tipo: recordData.userType,
       };
 
+      const creationRes = await userServices.create(dataToSend);
+      console.log(creationRes);
+      if (creationRes?.email) {
+        toast.success("O usuário foi criada com sucesso!");
+        closeModal();
+        return;
+      }
+      toast.error("Houve algum erro ao tentar criar o item.");
+    };
+
+    askModal((res, closeModal) => {
       return (
         <>
           <BaseHeader>Tela de Inclusão de Usuário</BaseHeader>
@@ -67,7 +141,7 @@ export default function UserManagingScreen() {
           <div className="p-4 px-6 flex flex-row justify-end">
             <button
               className="juicyButton font-medium border-2 border-dashed rounded-xl p-1"
-              onClick={onSave}
+              onClick={() => onSave(closeModal)}
             >
               <Save className="inline" /> Salvar
             </button>
@@ -75,7 +149,6 @@ export default function UserManagingScreen() {
         </>
       );
     });
-    await accountServices.createAccount(newAccountData);
   };
 
   // Registered Accounts Commands ----
@@ -198,7 +271,7 @@ export default function UserManagingScreen() {
 
               <button
                 className="juicyButton font-medium border-2 border-dashed rounded-xl p-1"
-                onClick={createNewAccount}
+                onClick={createNewUser}
               >
                 <CirclePlus className="inline" /> Novo Usuário
               </button>
@@ -211,7 +284,7 @@ export default function UserManagingScreen() {
             className="basis-1/4 grow-2"
             actionsColumn={actionsDescription}
 
-            data={queriedData}
+            data={usersSearched}
           />
         </div>
       </div>

@@ -61,6 +61,7 @@ public class ContaController {
     @DeleteMapping("/{numero}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
+        @PathVariable
         @NotNull(message = "O número da conta deve ser não nulo")
         @Positive(message = "O número da conta deve ser positivo")
         Long numero

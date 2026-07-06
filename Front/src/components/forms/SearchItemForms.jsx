@@ -3,7 +3,7 @@ import BaseForms from "./BaseForms";
 
 export const fields = [
   Fields.itemCode(),
-  Fields.itemDescription(),
+  Fields.description(),
   Fields.itemType(),
 ];
 

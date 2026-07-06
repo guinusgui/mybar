@@ -6,8 +6,6 @@ export const fields = [
   Fields.name(),
   Fields.phone(),
   Fields.gender(),
-  Fields.date(),
-  Fields.time(),
   Fields.accountNumber(),
   Fields.waiterCode(),
   Fields.waiterPassword(),

@@ -2,10 +2,10 @@ import { Fields } from "@/catalog/fields";
 import BaseForms from "./BaseForms";
 
 export const fields = [
-  Fields.itemCode(),
-  Fields.itemDescription(),
+  Fields.itemType(),
+  Fields.description(),
   Fields.tipPercentage(),
-  Fields.fromKitchen(),
+  Fields.from(),
 ];
 
 export default function ItemTypeForms({

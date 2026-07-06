@@ -1,7 +1,7 @@
 import { Fields } from "@/catalog/fields";
 import BaseForms from "./BaseForms";
 
-export const fields = [Fields.itemDescription()];
+export const fields = [Fields.description()];
 
 export default function ItemTypeSearchForms({
   editableFields = [],

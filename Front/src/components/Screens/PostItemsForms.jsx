@@ -2,7 +2,6 @@ import { useState } from "react";
 import DataForms from "../DataForms";
 import BaseHeader from "../Generics/BaseHeader";
 
-import getProductById from "@/Services/getProduct";
 import { CirclePlus, Save, Trash2 } from "lucide-react";
 import JsonTableForm from "../Generics/JsonTableForm";
 import useModal from "@/hooks/useModal";
@@ -18,7 +17,7 @@ export default function PostItemsForms({ accountData }) {
       // productData = await getProductById(newData[0]?.codigoProduto);
       if (newData[0]?.itemCode == "1234") {
         productData = {
-          itemDescription: "CHOCOLATE",
+          description: "CHOCOLATE",
           unitPrice: "R$ 12,50",
         };
       }
@@ -26,7 +25,7 @@ export default function PostItemsForms({ accountData }) {
       productData = null;
     }
 
-    newData[0].itemDescription = productData?.itemDescription;
+    newData[0].description = productData?.description;
     newData[0].unitPrice = productData?.unitPrice;
 
     setData(newData);

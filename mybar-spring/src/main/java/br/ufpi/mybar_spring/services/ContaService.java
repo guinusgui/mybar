@@ -47,7 +47,7 @@ public class ContaService {
         
         Usuario u = usuarioRepo.findById(dto.quem_abriu())
             .orElseThrow(() -> new EntidadeNaoEncontrada(
-                "O codigo de 'quem_abriu' fornecido não corresponde a nenhum usuário"));
+                "O codigo de 'quem_abriu' não corresponde a nenhum usuário"));
         
         if(!contaRepo.existsById(dto.numero()))
             return ContaMapper.toDto(contaRepo.save(ContaMapper.toEntity(dto, c, u)));

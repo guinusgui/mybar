@@ -104,7 +104,7 @@ export const clienteServerTypes = {
 // ---- ItemDoCardapio ----
 export const itemDoCardapioKeyMap = {
   codigo: "itemCode",
-  desc: "itemDescription",
+  desc: "description",
   tipo: "itemType",
   valor: "unitPrice",
 };
@@ -118,7 +118,7 @@ export const itemDoCardapioServerTypes = {
 // ---- Item ----
 export const itemKeyMap = {
   codigo: "itemCode",
-  descricao: "itemDescription",
+  descricao: "description",
   gorjeta: "tipPercentage",
   loco: "itemType",
 };

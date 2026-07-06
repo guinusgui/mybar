@@ -12,7 +12,6 @@ export default function ModalProvider({ children }) {
     modalClassName = null,
     modalStyle = null,
   ) => {
-    console.log();
     setModalData([
       ...modalData,
       {

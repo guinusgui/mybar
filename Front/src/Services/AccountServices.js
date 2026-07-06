@@ -1,20 +1,20 @@
-import { apiURL } from "./serviceConstants";
+import { apiURL, jsonHeaders } from "./serviceConstants";
 
 export function AccountServices() {
   async function createAccount(accountFields) {
     const res = await fetch(`${apiURL}/contas`, {
       method: "POST",
-      body: accountFields,
+      body: JSON.stringify(accountFields),
+      headers: { ...jsonHeaders },
     });
 
     const accounts = await res.json();
     return accounts;
   }
 
-  async function searchAccount(accountFields) {
+  async function getAllAccount() {
     const res = await fetch(`${apiURL}/contas`, {
-      method: "POST",
-      body: accountFields,
+      method: "GET",
     });
 
     const accounts = await res.json();
@@ -31,19 +31,17 @@ export function AccountServices() {
     return accounts;
   }
 
-  async function deleteAccount(accountFields) {
-    const res = await fetch(`${apiURL}/contas/`, {
-      method: "POST",
-      body: accountFields,
+  async function deleteAccount(accountNumber) {
+    const res = await fetch(`${apiURL}/contas/${accountNumber}`, {
+      method: "DELETE",
     });
 
-    const accounts = await res.json();
-    return accounts;
+    return res;
   }
 
   return {
     createAccount,
-    searchAccount,
+    getAllAccount,
     updateAccount,
     deleteAccount,
   };

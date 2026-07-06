@@ -7,7 +7,7 @@ export const fields = [
   Fields.name(),
 
   Fields.itemCode(),
-  Fields.itemDescription(),
+  Fields.description(),
   Fields.unitPrice(),
   Fields.quantity(),
   Fields.waiterCode(),

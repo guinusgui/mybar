@@ -227,6 +227,21 @@ const DataForms = function DataForms({
           </select>
         );
 
+        case "password":
+          return (
+            <input
+              autoFocus
+              type="text"
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              onBlur={saveEdit}
+              onKeyDown={handleInputKeyDown}
+              maxLength={field.maxLength}
+              type="password"
+              className="w-full rounded border border-blue-300 px-2 py-1 outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          );
+
       default:
         return (
           <input

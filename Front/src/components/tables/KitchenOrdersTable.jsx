@@ -4,7 +4,7 @@ import { Fields } from "@/catalog/fields";
 const fields = [
   Fields.accountNumber(),
   Fields.userType(),
-  Fields.itemDescription(),
+  Fields.description(),
 
   // The actual requirement is to date and time be joined into a single field
   Fields.date(),

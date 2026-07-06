@@ -11,7 +11,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { CircleCheck, CircleX } from "lucide-react";
-import createAccount from "@/Services/createAccount";
 
 export const ConfirmationContext = createContext(null);
 
