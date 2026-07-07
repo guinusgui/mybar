@@ -10,10 +10,12 @@ import br.ufpi.mybar_spring.dto.objects.conta.ContaResponseDto;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.exceptions.custom.RequisicaoIlegal;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
+import br.ufpi.mybar_spring.models.conta.Conta;
 import br.ufpi.mybar_spring.models.usuario.Usuario;
 import br.ufpi.mybar_spring.repositories.ClienteRepo;
 import br.ufpi.mybar_spring.repositories.ContaRepo;
 import br.ufpi.mybar_spring.repositories.UsuarioRepo;
+import br.ufpi.mybar_spring.tools.Status;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,6 +29,7 @@ public class ContaService {
 
     public List<ContaResponseDto> list() {
         return contaRepo.findAll().stream()
+            .filter(a -> a.getAtividade().equals(Status.ATIVO))
             .map(ContaMapper::toDto)
             .toList();
     }
@@ -78,16 +81,21 @@ public class ContaService {
     }
 
     public void delete(Long numero) {
-        if(!contaRepo.existsById(numero))
-            throw new EntidadeNaoEncontrada(
-        "O 'numero' fornecido não corresponde a nenhuma conta"
-        );
-        try {
-            contaRepo.deleteById(numero);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(
-                "Requisição nula, impossível prosseguir", e
+        
+        Conta c = contaRepo.findById(numero)
+            .orElseThrow(
+                () -> new EntidadeNaoEncontrada(
+                    "O numero fornecido não corresponde a nenhuma conta"
+                )
             );
+        
+        if(c.getItens_pendentes() != null) {
+            throw new RequisicaoIlegal(
+                "Essa conta possui itens registrados. Não se pode deletá-la");
         }
+
+        c.setAtividade(Status.INATIVO);
+        contaRepo.save(c);
+        
     }
 }

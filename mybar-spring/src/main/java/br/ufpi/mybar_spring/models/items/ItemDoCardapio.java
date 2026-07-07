@@ -2,6 +2,7 @@ package br.ufpi.mybar_spring.models.items;
 
 import java.math.BigDecimal;
 
+import br.ufpi.mybar_spring.tools.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,6 +32,8 @@ public class ItemDoCardapio {
     
     @Column(nullable = false)
     private BigDecimal valor;
+
+    private Status atividade = Status.ATIVO;
 
 
 }

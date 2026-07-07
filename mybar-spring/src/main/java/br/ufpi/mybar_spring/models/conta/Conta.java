@@ -7,6 +7,7 @@ import java.util.List;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
 import br.ufpi.mybar_spring.models.compras.Compra;
 import br.ufpi.mybar_spring.models.usuario.Usuario;
+import br.ufpi.mybar_spring.tools.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -61,5 +62,7 @@ public class Conta {
         mappedBy = "conta_associada"
     )
     private List<Compra> itens_pendentes;
+
+    private Status atividade = Status.INATIVO;
     
 }

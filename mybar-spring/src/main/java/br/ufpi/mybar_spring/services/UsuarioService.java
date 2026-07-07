@@ -11,6 +11,7 @@ import br.ufpi.mybar_spring.exceptions.custom.RequisicaoIlegal;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.models.usuario.Usuario;
 import br.ufpi.mybar_spring.repositories.UsuarioRepo;
+import br.ufpi.mybar_spring.tools.Status;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -57,18 +58,15 @@ public class UsuarioService {
     }
 
     public void delete( Long codigo) {
-        if(!usuarioRepo.existsById(codigo))
-            throw new EntidadeNaoEncontrada(
-        "O codigo fornecido não pertence a nenhum Usuario");
-
-        try {
-            usuarioRepo.deleteById(codigo);
-        } catch (IllegalArgumentException e) {
-            throw new RequisicaoIlegal(
-                "Requisição nula, impossível prosseguir", e
+        Usuario u = usuarioRepo.findById(codigo)
+            .orElseThrow(
+                () -> new EntidadeNaoEncontrada(
+                    "O código não corresponde a nenhum usuário"
+                )
             );
-        
-        }
+
+        u.setAtividade(Status.INATIVO);
+        usuarioRepo.save(u);
     }
 
 }

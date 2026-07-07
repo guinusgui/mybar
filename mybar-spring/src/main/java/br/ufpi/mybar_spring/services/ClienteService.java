@@ -9,6 +9,7 @@ import br.ufpi.mybar_spring.dto.objects.cliente.ClienteDto;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.models.cliente.Cliente;
 import br.ufpi.mybar_spring.repositories.ClienteRepo;
+import br.ufpi.mybar_spring.tools.Status;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -18,6 +19,7 @@ public class ClienteService {
 
     public List<ClienteDto> list() {
         return clienteRepo.findAll().stream()
+            .filter(a -> a.getAtividade().equals(Status.ATIVO))
             .map(ClienteMapper::toDto)
             .toList();
     }
@@ -27,7 +29,8 @@ public class ClienteService {
             clienteRepo.findById(cpf)
                 .orElseThrow(
                     () -> new EntidadeNaoEncontrada(
-                        "O cpf fornecido não corresponde a nenhum cliente")
+                        "O cpf fornecido não corresponde a nenhum cliente"
+                    )
                 ));
         
     }
@@ -54,18 +57,15 @@ public class ClienteService {
     }
 
     public void delete(String cpf) {
-        if(!clienteRepo.existsById(cpf))
-            throw new EntidadeNaoEncontrada(
-            "O cpf fornecido não corresponde a nenhum cliente"
-        );
-
-        try {
-            clienteRepo.deleteById(cpf);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(
-                "Requisição nula, impossível prosseguir", e
+        Cliente c = clienteRepo.findById(cpf)
+            .orElseThrow(
+                () -> new EntidadeNaoEncontrada(
+                    "O cpf não pertence a nenhum cliente"
+                )
             );
-        }
+
+        c.setAtividade(Status.INATIVO);
+        clienteRepo.save(c);
     }
 
 }

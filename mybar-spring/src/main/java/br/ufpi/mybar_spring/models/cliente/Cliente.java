@@ -1,5 +1,6 @@
 package br.ufpi.mybar_spring.models.cliente;
 
+import br.ufpi.mybar_spring.tools.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,6 +29,9 @@ public class Cliente {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ClienteSexo sexo;
+
+    @Enumerated(EnumType.STRING)
+    private Status atividade = Status.ATIVO;
 
     
 

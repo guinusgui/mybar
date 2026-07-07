@@ -2,6 +2,7 @@ package br.ufpi.mybar_spring.models.items;
 
 import java.math.BigDecimal;
 
+import br.ufpi.mybar_spring.tools.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -26,4 +27,6 @@ public class Item {
 
     @Enumerated(EnumType.STRING)
     private LocalDeProducao loco;
+
+    private Status atividade = Status.ATIVO;
 }

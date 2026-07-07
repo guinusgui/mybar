@@ -9,6 +9,7 @@ import br.ufpi.mybar_spring.dto.objects.item.ItemDto;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.models.items.Item;
 import br.ufpi.mybar_spring.repositories.ItemRepo;
+import br.ufpi.mybar_spring.tools.Status;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -55,17 +56,14 @@ public class ItemService {
     }
 
     public void delete(Long codigo) {
-        if(!itemRepo.existsById(codigo))
-            throw new EntidadeNaoEncontrada(
-            "O codigo fornecido não corresponde a nenhum item"
-        );
-
-        try {
-            itemRepo.deleteById(codigo);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(
-                "Requisição nula, impossível prosseguir", e
+        Item i = itemRepo.findById(codigo)
+            .orElseThrow(
+                () -> new EntidadeNaoEncontrada(
+                    "O codigo não pertence a nenhum tipo de item registrado"
+                )
             );
-        }
+
+        i.setAtividade(Status.INATIVO);
+        itemRepo.save(i);
     }
 }

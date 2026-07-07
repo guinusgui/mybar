@@ -9,8 +9,10 @@ import br.ufpi.mybar_spring.dto.objects.item.ItemDoCardapioDto;
 import br.ufpi.mybar_spring.exceptions.custom.EntidadeNaoEncontrada;
 import br.ufpi.mybar_spring.exceptions.custom.RequisicaoIlegal;
 import br.ufpi.mybar_spring.models.items.Item;
+import br.ufpi.mybar_spring.models.items.ItemDoCardapio;
 import br.ufpi.mybar_spring.repositories.CardapioRepo;
 import br.ufpi.mybar_spring.repositories.ItemRepo;
+import br.ufpi.mybar_spring.tools.Status;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,6 +24,7 @@ public class CardapioService {
 
     public List<ItemDoCardapioDto> list() {
         return cardapioRepo.findAll().stream()
+            .filter(a -> a.getAtividade().equals(Status.INATIVO))
             .map(ItemCardapioMapper::toDto)
             .toList();
     }
@@ -31,14 +34,14 @@ public class CardapioService {
             cardapioRepo.findById(id)
                 .orElseThrow(
                     () -> new EntidadeNaoEncontrada(
-                        "O numero fornecido não corresponde a nenhuma conta")
+                        "O codigo fornecido não corresponde a nenhum item")
                 ));
     }
 
     public ItemDoCardapioDto create(ItemDoCardapioDto dto) {
         Item i = itemRepo.findById(dto.tipo())
                 .orElseThrow(() -> new EntidadeNaoEncontrada(
-                    "O id fornecido não corresponde a nenhum cliente"
+                    "O codigo fornecido não corresponde a nenhum tipo de item"
                 )
             );
         
@@ -47,13 +50,13 @@ public class CardapioService {
             
         else
             throw new RequisicaoIlegal(
-        "Tentativa de criar conta com número já registrado");
+        "Já há um item com o código enviado");
     }
 
     public void update(ItemDoCardapioDto dto) {
         Item i = itemRepo.findById(dto.tipo())
                 .orElseThrow(() -> new EntidadeNaoEncontrada(
-                    "O id fornecido não corresponde a nenhum cliente"
+                    "O código fornecido não corresponde a nenhum item"
                 )
             );
 
@@ -65,16 +68,14 @@ public class CardapioService {
     }
 
     public void delete(Long numero) {
-        if(!cardapioRepo.existsById(numero))
-            throw new EntidadeNaoEncontrada(
-        "O numero fornecido não corresponde a nenhuma conta"
+        ItemDoCardapio i = cardapioRepo.findById(numero)
+        .orElseThrow(
+            () -> new EntidadeNaoEncontrada(
+                "O número não pertence a nenhum item no cardápio"
+            )
         );
-        try {
-            cardapioRepo.deleteById(numero);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(
-                "Requisição nula, impossível prosseguir", e
-            );
-        }
+
+        i.setAtividade(Status.INATIVO);
+        cardapioRepo.save(i);
     }
 }
