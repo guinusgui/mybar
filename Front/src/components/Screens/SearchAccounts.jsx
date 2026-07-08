@@ -49,9 +49,15 @@ export default function SearchAccounts() {
   // Search & Create Buttons ----
   const _searchAccount = async () => {
     const searchedAccount = searchData.current.getData()[0];
-    searchedAccount.cpf = searchedAccount?.cpf?.replaceAll(/(\.|-)/g, "");
+    searchedAccount.cpf = searchedAccount.cpf?.replaceAll(/(\.|-)/g, "");
+    searchedAccount.phone = searchedAccount?.phone?.replaceAll(
+      /\(?\)?\s?-?/g,
+      "",
+    );
+    console.log(searchedAccount);
 
     const accountsFound = await accountServices.getAllAccount();
+    console.log(accountsFound);
     const accountsToSearch = accountsFound.map((acc) => ({
       nome: acc.dono.nome,
       cpf: acc.dono.cpf,
@@ -66,7 +72,7 @@ export default function SearchAccounts() {
         nome: searchedAccount.name,
         cpf: searchedAccount.cpf,
         telefone: searchedAccount.phone,
-        status: searchedAccount.status,
+        status: searchedAccount.accountOpened,
         numero: searchedAccount.accountNumber,
       },
       ["nome", "cpf", "telefone"],
@@ -97,7 +103,6 @@ export default function SearchAccounts() {
   const createNewAccount = async () => {
     const onSave = async (closeModal) => {
       const accData = tempData.current.getData()[0];
-      console.log(accData);
 
       for (const prop of ["cpf", "gender", "waiterCode", "accountNumber"]) {
         if (!accData[prop]) {
