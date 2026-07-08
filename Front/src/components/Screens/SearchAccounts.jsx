@@ -159,11 +159,10 @@ export default function SearchAccounts() {
         return;
       }
       if (
-        accCreationRes?.message in
         [
           "O codigo de 'quem_abriu' fornecido não corresponde a nenhum usuário",
           "O codigo de 'quem_abriu' não corresponde a nenhum usuário",
-        ]
+        ].includes(accCreationRes?.message)
       ) {
         toast.error("O Código do Garçom não corresponde a nenhum garçom");
         return;
