@@ -63,6 +63,6 @@ public class Conta {
     )
     private List<Compra> itens_pendentes;
 
-    private Status atividade = Status.INATIVO;
+    private Status atividade = Status.ATIVO;
     
 }
