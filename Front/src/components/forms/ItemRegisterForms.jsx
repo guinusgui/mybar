@@ -11,7 +11,7 @@ export const fields = [
   Fields.unitPrice(),
   Fields.quantity(),
   Fields.waiterCode(),
-  Fields.waiterPassword(),
+  // Fields.waiterPassword(),
 ];
 
 export default function ItemRegisterForms({

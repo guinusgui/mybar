@@ -54,10 +54,8 @@ export default function SearchAccounts() {
       /\(?\)?\s?-?/g,
       "",
     );
-    console.log(searchedAccount);
 
-    const accountsFound = await accountServices.getAllAccount();
-    console.log(accountsFound);
+    const accountsFound = await accountServices.searchAll();
     const accountsToSearch = accountsFound.map((acc) => ({
       nome: acc.dono.nome,
       cpf: acc.dono.cpf,
@@ -88,7 +86,6 @@ export default function SearchAccounts() {
       })
       .filter((val) => val);
 
-    console.log(possibleMatches);
     setSearchedAccounts(
       matches.map((match) => ({
         name: match.nome,
@@ -125,7 +122,7 @@ export default function SearchAccounts() {
             sexo: accData.gender,
           });
 
-          if (createClientRes.status != 201) {
+          if (createClientRes.statu) {
             toast.error(
               "Existe algum problema com os dados de (nome, cpf, telefone ou sexo) que tornam inviável criar um cliente para essa conta.",
             );
@@ -252,7 +249,7 @@ export default function SearchAccounts() {
   };
 
   const postItems = (accountData) => {
-    openModal(<PostItemsForms></PostItemsForms>);
+    openModal(<PostItemsForms accountSummary={accountData}></PostItemsForms>);
   };
 
   const closeAccount = (accountData) => {

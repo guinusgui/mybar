@@ -102,18 +102,6 @@ export default function UserManagingScreen() {
         }
       }
 
-      //     Long codigo,
-      //     String nome,
-      //     String email,
-      //     String senha,
-      //     TipoDeUsuario tipo
-
-      // "userCode",
-      // "name",
-      // "email",
-      // "password",
-      // "userType",
-
       let dataToSend = {
         codigo: recordData.userCode,
         nome: recordData.name,
@@ -252,7 +240,7 @@ export default function UserManagingScreen() {
         {/* First Col */}
         <div className="grow flex flex-row justify-stretch gap-4">
           <div className="basis-1/4 grow h-full flex flex-col">
-            <BaseHeader className="mb-4">Pesquisa por Tipo</BaseHeader>
+            <BaseHeader className="mb-4">Pesquisa por Usuários</BaseHeader>
 
             <UserForms
               className="grow flex flex-col items-stretch"

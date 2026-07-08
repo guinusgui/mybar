@@ -20,7 +20,7 @@ public class ItemMapper {
         i.setCodigo(dto.codigo());
         i.setDescricao(dto.descricao());
         i.setGorjeta(dto.gorjeta());
-        i.setLoco(i.getLoco());
+        i.setLoco(dto.loco());
 
         return i;
     }

@@ -3,6 +3,8 @@ package br.ufpi.mybar_spring.models.compras;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.ufpi.mybar_spring.models.conta.Conta;
 import br.ufpi.mybar_spring.models.items.ItemDoCardapio;
 import br.ufpi.mybar_spring.models.items.LocalDeProducao;
@@ -36,8 +38,8 @@ public class Compra {
 
     private Status ativo = Status.ATIVO;
 
-    @Column(nullable = false)
-    private LocalDeProducao loco;
+    // @Column(nullable = false)
+    // private LocalDeProducao loco;
     
     private LocalDate data_solicitacao = LocalDate.now();
     private LocalTime hora_solicitacao = LocalTime.now();
@@ -52,6 +54,7 @@ public class Compra {
     @JoinColumn(
         foreignKey = @ForeignKey(name = "fk_conta_associada_pedido")
     )
+    @JsonIgnore
     private Conta conta_associada;
 
     @Enumerated(EnumType.STRING)

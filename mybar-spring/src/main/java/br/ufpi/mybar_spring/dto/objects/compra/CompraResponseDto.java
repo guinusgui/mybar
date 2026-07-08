@@ -12,7 +12,7 @@ import br.ufpi.mybar_spring.models.items.LocalDeProducao;
 public record CompraResponseDto(
     Long id,
     Integer quantidade,
-    LocalDeProducao loco,
+    // LocalDeProducao loco,
     EstadoDeProducao estado,
     LocalDate data_solicitacao,
     LocalTime hora_solicitacao,

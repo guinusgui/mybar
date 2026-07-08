@@ -96,13 +96,8 @@ export const Fields = {
     key: "accountStatus",
     label: "Status",
     inputType: "select",
-    options: [
-      { value: "required", label: "Solicitado" },
-      { value: "received", label: "Recebido" },
-      { value: "provided", label: "Entregue" },
-    ],
+    options: ["SOLICITADO", "EM_PREPARACAO", "ENTREGUE"],
   }),
-
   //--------------------------------------------------------
   // Waiter
   //--------------------------------------------------------

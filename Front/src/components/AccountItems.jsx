@@ -2,17 +2,16 @@ import { Save, Trash2 } from "lucide-react";
 import BaseHeader from "./Generics/BaseHeader";
 import JsonTableForm from "./Generics/JsonTableForm";
 import { useState } from "react";
+import { Fields } from "@/catalog/fields";
 
-export default function AccountItems({ actionsActive = true }) {
-  const [x, updX] = useState([
-    {
-      Código: "1234",
-      Descrição: "Lorem Ipsum",
-      Quantidade: 3,
-      Valor: "R$ 12,50",
-    },
-  ]);
+const fields = [
+  Fields.itemCode(),
+  Fields.description(),
+  Fields.quantity(),
+  Fields.totalValue(),
+];
 
+export default function AccountItems({ data = null, actionsActive = true }) {
   const actionsCol = actionsActive
     ? {
         label: "",
@@ -40,7 +39,7 @@ export default function AccountItems({ actionsActive = true }) {
       <JsonTableForm
         className="basis-2 grow"
 
-        data={x}
+        data={data}
         actionsColumn={actionsCol}
       />
     </>

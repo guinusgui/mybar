@@ -57,7 +57,6 @@ export default function MenuManagingScreen() {
       idx_,
     }));
 
-
     const possibleMatches = findBestMatches(
       recordsToSearch,
       {
@@ -78,10 +77,10 @@ export default function MenuManagingScreen() {
       })
       .filter((val) => val);
 
-    const uniqueTypes = [... new Set(matches.map(match => match.tipo))]
+    const uniqueTypes = [...new Set(matches.map((match) => match.tipo))];
     const typesData = await uniqueTypes.reduce(async (acum, typeCode) => {
-      return {...acum, [typeCode]: await itemTypeServices.search(typeCode)}
-    }, {})
+      return { ...acum, [typeCode]: await itemTypeServices.search(typeCode) };
+    }, {});
 
     setSearchedMenu(
       matches.map((match) => ({
@@ -89,7 +88,7 @@ export default function MenuManagingScreen() {
         description: match.desc,
         itemType: match.tipo,
         unitPrice: match.valor,
-        tipPercentage: typesData[match.tipo].gorjeta
+        tipPercentage: typesData[match.tipo].gorjeta,
       })),
     );
   };
@@ -98,16 +97,10 @@ export default function MenuManagingScreen() {
     const onSave = async (closeModal) => {
       const recordData = tempData.current.getData()[0];
 
-      for (const prop of [
-        "itemCode",
-        "description",
-        "itemType",
-        "unitPrice",
-        "tipPercentage",
-      ]) {
+      for (const prop of ["itemCode", "description", "itemType", "unitPrice"]) {
         if (!recordData[prop]) {
           toast.error(
-            "Código do item, descrição, tipo do item, preço unitário e Gorjeta devem ter um valor não nulo.",
+            "Código do item, descrição, tipo do item e preço unitário devem ter um valor não nulo.",
           );
           return;
         }
@@ -140,7 +133,15 @@ export default function MenuManagingScreen() {
         <>
           <BaseHeader>Tela de Inclusão de Item</BaseHeader>
 
-          <ItemForms editableFields={["*"]} dataRef={tempData} />
+          <ItemForms
+            editableFields={[
+              "itemCode",
+              "description",
+              "itemType",
+              "unitPrice",
+            ]}
+            dataRef={tempData}
+          />
           <div className="p-4 px-6 flex flex-row justify-end">
             <button
               className="juicyButton font-medium border-2 border-dashed rounded-xl p-1"
@@ -166,10 +167,8 @@ export default function MenuManagingScreen() {
     if (!ok) return;
 
     // Deleting -
-    console.log(accountData.itemCode)
-    const delRes = await menuServices.remove(
-      accountData.itemCode,
-    );
+    console.log(accountData.itemCode);
+    const delRes = await menuServices.remove(accountData.itemCode);
     if (delRes.status == 204) {
       setSearchedMenu(
         searchedMenu.toSpliced(searchedMenu.indexOf(accountData), 1),
@@ -258,7 +257,7 @@ export default function MenuManagingScreen() {
   return (
     <>
       <div className="h-full flex flex-col items-stretch">
-        <BaseHeader className="mb-4">Registro de Conta</BaseHeader>
+        <BaseHeader className="mb-4">Registro de Itens no Cardápio</BaseHeader>
 
         {/* First Col */}
         <div className="grow flex flex-row justify-stretch gap-4">
@@ -288,7 +287,6 @@ export default function MenuManagingScreen() {
               </button>
             </div>
           </div>
-
           {/* Second Col */}
           <MenuItemsTable
             data={searchedMenu}

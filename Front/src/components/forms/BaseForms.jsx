@@ -24,6 +24,7 @@ export default function BaseForms({
 
   useImperativeHandle(dataRef, () => ({
     getData: () => _data,
+    setData: (...args) => _setData(...args),
   }));
 
   return (

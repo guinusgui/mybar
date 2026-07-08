@@ -68,6 +68,9 @@ public class CompraService {
 
         c.getItens_pendentes().add(compra);
 
+        contaRepo.save(c);
+        compraRepo.save(compra);
+
     }
 
     public void remover_item(CompraRequestDto dto) {//aqui, dto.codigo() é o id do pedido

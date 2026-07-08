@@ -9,7 +9,7 @@ public class CompraMapper {
         return new CompraResponseDto(
             c.getId(),
             c.getQuantidade(),
-            c.getLoco(),
+            // c.getLoco(),
             c.getStatus(),
             c.getData_solicitacao(),
             c.getHora_solicitacao(),

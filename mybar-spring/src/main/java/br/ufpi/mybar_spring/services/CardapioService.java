@@ -24,7 +24,7 @@ public class CardapioService {
 
     public List<ItemDoCardapioDto> list() {
         return cardapioRepo.findAll().stream()
-            .filter(a -> a.getAtividade().equals(Status.INATIVO))
+            .filter(a -> a.getAtividade().equals(Status.ATIVO))
             .map(ItemCardapioMapper::toDto)
             .toList();
     }

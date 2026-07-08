@@ -49,7 +49,7 @@ export default function ItemTypeManagingScreen() {
 
   // Search & Create Buttons ----
   const _searchAccount = async () => {
-  const searchedRecord = searchData.current.getData()[0];
+    const searchedRecord = searchData.current.getData()[0];
     const recordsFound = await itemTypeServices.searchAll();
 
     const recordsToSearch = recordsFound.map((record, idx_) => ({
@@ -78,18 +78,13 @@ export default function ItemTypeManagingScreen() {
       })
       .filter((val) => val);
 
-    // const uniqueTypes = [... new Set(matches.map(match => match.tipo))]
-    // const typesData = await uniqueTypes.reduce(async (acum, typeCode) => {
-    //   return {...acum, [typeCode]: await itemTypeServices.search(typeCode)}
-    // }, {})
-
     setSearchedRecords(
       matches.map((match) => ({
         itemCode: match.codigo,
         description: match.descricao,
         from: match.loco,
-        tipPercentage: match.gorjeta
-      }))
+        tipPercentage: match.gorjeta,
+      })),
     );
   };
 
@@ -124,6 +119,7 @@ export default function ItemTypeManagingScreen() {
       };
 
       const creationRes = await itemTypeServices.create(dataToSend);
+
       if (creationRes?.descricao) {
         toast.success("O tipo de item foi criado com sucesso!");
         closeModal();
@@ -163,9 +159,7 @@ export default function ItemTypeManagingScreen() {
     if (!ok) return;
 
     // Deleting -
-    const delRes = await itemTypeServices.remove(
-      accountData.itemCode,
-    );
+    const delRes = await itemTypeServices.remove(accountData.itemCode);
     if (delRes.status == 204) {
       setSearchedRecords(
         searchedRecords.toSpliced(searchedRecords.indexOf(accountData), 1),

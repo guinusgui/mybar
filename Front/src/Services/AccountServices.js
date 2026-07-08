@@ -1,8 +1,10 @@
 import { apiURL, jsonHeaders } from "./serviceConstants";
 
+const accountsURL = `${apiURL}/contas`;
+
 export function AccountServices() {
   async function createAccount(accountFields) {
-    const res = await fetch(`${apiURL}/contas`, {
+    const res = await fetch(`${accountsURL}`, {
       method: "POST",
       body: JSON.stringify(accountFields),
       headers: { ...jsonHeaders },
@@ -12,8 +14,17 @@ export function AccountServices() {
     return accounts;
   }
 
-  async function getAllAccount() {
-    const res = await fetch(`${apiURL}/contas`, {
+  async function search(accountNumber) {
+    const res = await fetch(`${accountsURL}/${accountNumber}`, {
+      method: "GET",
+    });
+
+    const accounts = await res.json();
+    return accounts;
+  }
+
+  async function searchAll() {
+    const res = await fetch(`${accountsURL}`, {
       method: "GET",
     });
 
@@ -22,7 +33,7 @@ export function AccountServices() {
   }
 
   async function updateAccount(accountFields) {
-    const res = await fetch(`${apiURL}/contas`, {
+    const res = await fetch(`${accountsURL}`, {
       method: "POST",
       body: accountFields,
     });
@@ -32,7 +43,7 @@ export function AccountServices() {
   }
 
   async function deleteAccount(accountNumber) {
-    const res = await fetch(`${apiURL}/contas/${accountNumber}`, {
+    const res = await fetch(`${accountsURL}/${accountNumber}`, {
       method: "DELETE",
     });
 
@@ -41,7 +52,8 @@ export function AccountServices() {
 
   return {
     createAccount,
-    getAllAccount,
+    searchAll,
+    search,
     updateAccount,
     deleteAccount,
   };
